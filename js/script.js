@@ -20,12 +20,16 @@ function drawWavyLines() {
     const freq = 0.018; // Frequency of the sine wave
     const amp = 28;     // Amplitude (how tall the waves are)
 
-    for (let i = 0; i < numLines; i++) {
+    // Extend the loop to start before 0 and end after numLines to overflow the top and bottom
+    for (let i = -10; i < numLines + 10; i++) {
         ctx.beginPath();
-        ctx.strokeStyle = colors[i % colors.length];
+        
+        // Use Math.abs(i) to prevent negative modulo issues on colors
+        ctx.strokeStyle = colors[Math.abs(i) % colors.length];
 
-        // Phase shifting linearly with the row index to align wave peaks diagonally
-        const phaseShift = -i * 0.18;
+        // Phase shifting linearly with the row index to align wave peaks diagonally.
+        // Using positive i reverses the slant to match the reference image (/)
+        const phaseShift = i * 0.18;
 
         // Draw the wave across the entire width
         for (let x = 0; x <= width; x += 3) {
